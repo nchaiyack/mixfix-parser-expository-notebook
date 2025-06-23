@@ -1,8 +1,8 @@
-# MIXML Pedagogical Notebook – Master Plan
+# MIXML Pedagogical Python Quarto Notebook – Master Plan
 
 ## 1  Overall Objective
 
-Craft a self‑contained Quarto notebook that **teaches and implements** mixfix parsing in a tiny, untyped, applicative ML‑style language called **MIXML**. The notebook must:
+Craft a self‑contained Python Quarto notebook that **teaches and implements** mixfix parsing in a tiny, untyped, applicative ML‑style language called **MIXML**. The notebook must:
 
 - Begin with an immediate, runnable demo ("wow factor")
 - Build every component—from lexer to evaluator—in small, comprehensible increments
