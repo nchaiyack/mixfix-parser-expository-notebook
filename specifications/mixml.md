@@ -59,13 +59,19 @@ $id_part            = (all non-whitespace graphic Unicode other than "_")
 '                   <quote>
 (                   <open_paren>
 )                   <close_paren>
+
 (floating point #)  <float>
+
 ($id_part)+ |
     _ ($id_part)+ (_($id_part)+)* (_)+
+
                     <ident>
+
 $white+             (discard)
+
 in | and | let | = | end | infixl |
      infixr | infix |fun | ->
+
                     (retain keyword verbatim)
 ```
 
