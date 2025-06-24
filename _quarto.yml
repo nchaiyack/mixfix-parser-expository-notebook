@@ -8,6 +8,9 @@ book:
   chapters:
     - index.qmd
     - chapters/gfdl.qmd
+# Temporary navbar configuration denoting WIP
+  sidebar:
+    header: "<span style=\"color: red; font-size: 48px; font-weight: bold; text-decoration: underline;\">WIP</span>"
 
 format:
   html:
