@@ -6,7 +6,7 @@ Below is a concise snapshot of **MIXML**, our pedagogical core language, that al
 - **Minimal data types**: lambdas, lisp-style symbols (e.g. `'abc`)
 - **Unicode‑friendly mixfix operators** declared with underscore holes (e.g. `_×_`, `if_then_else_,` `_²`, etc.).
 
-### Syntas demonstration
+### Syntax demonstration
 
 The following are valid MIXML programs of increasing syntactic
 complexity that should evaluate to the same symbol `'abc`:
@@ -49,7 +49,7 @@ let _✓_✕ = fun x y -> x in
 ## Lexical analysis and base grammar of base MIXML 
 
 One of the takeaways of our mixfix parser implementation is that, as the set of mixfix operators
-in scope changes, so does the gramma
+in scope changes, so does the effective grammar being parsed.
 
 The following "pseudo-lex" specification shows how tokenization might work:
 
