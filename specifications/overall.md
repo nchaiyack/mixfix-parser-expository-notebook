@@ -2,12 +2,12 @@
 
 ## 1  Overall Objective
 
-Craft a self‑contained Python Quarto notebook that **teaches and implements** mixfix parsing in a tiny, untyped, applicative ML‑style language called **MIXML**. The notebook must:
+Craft a self‑contained Python Quarto notebook (.qmd) that **teaches and implements** mixfix parsing in a tiny, untyped, applicative ML‑style language called **MIXML**. The notebook must:
 
 - Begin with an immediate, runnable demo ("wow factor")
 - Build every component—from lexer to evaluator—in small, comprehensible increments
 - Highlight ambiguities and their resolution via operator precedence/associativity
-- Remain < 300 LOC of library code so students can read it end‑to‑end in one sitting
+- Remain < 1000 LOC of library code so students can read it end‑to‑end in one sitting
 - Provide hidden pretty-printing functions that provide concise symbolic representations of data structures.
 
 ### What you can rely on
@@ -39,7 +39,7 @@ Use the PDFs in the 'references' folder as technical references on mixfix operat
 
 ## 3  Quick‑Demo Implementation Plan (“hidden setup cell” strategy)
 
-1. **Bootstrap module**  Ship `mixfix_demo.py` (≤150 LOC) exposing `Operator`, `parse`, `pretty`, `AmbiguityError`, `eval`.
+1. **Bootstrap module**  Ship `mixfix_demo.py` (≤1000 LOC) exposing `Operator`, `parse`, `pretty`, `AmbiguityError`, `eval`.
 2. **Hidden *****init***** cell**  First cell (collapsed via Quarto metadata) runs:
    ```python
    import importlib, sys, types, pathlib
