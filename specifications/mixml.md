@@ -76,7 +76,8 @@ in | and | let | = | end | infixl |
 ```
 
 After lexical analysis and producing a token stream, the following
-BNF grammar then recognizes valid programs:
+BNF grammar then recognizes valid programs. Note that the `expr`
+rule is where mixfix parsing/rewriting comes into play.
 
 
 ```{bnf}
@@ -84,6 +85,8 @@ BNF grammar then recognizes valid programs:
 <decl_list> ::= <decl> ("and" <decl>)*
 <decl>      ::= "let" <ident> "=" (<expr>)+ "end" | "infixl" <float> <ident> 
               | "infixr" <float> <ident> | "infix" <float> <ident>
+
+<possible>
 
 <expr>      ::= <lambda> | <ident> | <quote> <ident>
               | <open_paren> <expr> <close_paren>
