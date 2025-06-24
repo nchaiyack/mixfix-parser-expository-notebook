@@ -3,10 +3,8 @@ Below is a concise snapshot of **MIXML**, our pedagogical core language, that al
 ### Language Essence
 
 - **Untyped, Applicative, ML‑inspired**
-- \*\*Always‑recursive \*\*`` blocks (`let f = … and g = …`)—mirrors `let rec`.
-- **Unicode‑friendly mixfix operators** declared with underscore holes (*×*, if\_then\_else\_, \_², etc.).
-- **Minimal data types**: integers, booleans, symbols; lists if needed for pattern demos.
-- **Pattern matching** via `match … with` (wildcard `_`, literal symbols, cons operator `_::_`).
+- **Unicode‑friendly mixfix operators** declared with underscore holes (`_×_`, `if_then_else_,` `_²`, etc.).
+- **Minimal data types**: lambdas, lisp-style symbols (`'symbol`)
 
 ### Example Fragments We Will Showcase
 
@@ -16,45 +14,41 @@ Below is a concise snapshot of **MIXML**, our pedagogical core language, that al
 
 ---
 
-## 5  BNF Grammar (MIXML)
+## Lexical analysis and base grammar of base MIXML 
 
-*Angle‑brackets are non‑terminals; terminals are ****bold**** keywords or symbols.*
+One of the takeaways of our mixfix parser implementation is that, as the set of mixfix operators
+in scope changes, so does the gramma
 
-```bnf
-<program>       ::= <decl-list>
-<decl-list>     ::= <decl> | <decl-list> **and** <decl>
+The following "pseudo-lex" specification shows how tokenization might work:
 
-<decl>          ::= **let** <binding>
-<binding>       ::= <lhs> **=** <expr>
+```{lex}
+$id_part            = (all non-whitespace graphic Unicode other than "_")
 
-<lhs>           ::= <mixfix-ident> | <ident> <param-list>
-<param-list>    ::= <ident> | <param-list> <ident>
-
-<expr>          ::= <lambda>
-                |  <match>
-                |  <iflike>
-                |  <mixfix-seq>
-
-<lambda>        ::= **fun** <ident> **->** <expr>
-<match>         ::= **match** <expr> **with** <pat> **->** <expr> { **|** <pat> **->** <expr> }
-<iflike>        ::= <ident> (**_** <expr>)+          -- expands to mixfix parse of holes
-
-<mixfix-seq>    ::= <app> { <operator-token> <app> }
-<app>           ::= <atom> { <atom> }
-<atom>          ::= <ident>
-                |  <int> | <bool> | <symbol>
-                |  **(** <expr> **)**
-
-<pat>           ::= <ident> | <symbol> | **_** | <pat> <mixfix-op> <pat>
-
-<ident>         ::= letter { letter | digit | **'** }
-<mixfix-ident>  ::= operator-token with ≥1 underscore
-<operator-token>::= sequence of Unicode Sm/Lo chars & punctuation excluding letters/digits
+'                   <quote>
+(                   <open_paren>
+)                   <close_paren>
+(floating point #)  <float>
+($id_part)+ |
+    _ ($id_part)+ (_($id_part)+)* (_)+
+                    <ident>
+$white+             (discard)
+in | and | let | = | end | infixl |
+     infixr | infix |fun | ->
+                    (retain keyword verbatim)
 ```
 
-*Precedence & associativity rules* are injected from operator declarations of the form:
+After lexical analysis and producing a token stream, the following
+BNF grammar then recognizes valid programs:
 
-```ml
-infixl 7 _×_
-infixr 5 _++_
+
+```{bnf}
+<program>   ::= <decl_list> "in" <expr> | <expr>
+<decl_list> ::= <decl> ("and" <decl>)*
+<decl>      ::= "let" <ident> "=" (<expr>)+ "end" | "infixl" <float> <ident> 
+              | "infixr" <float> <ident> | "infix" <float> <ident>
+
+<expr>      ::= <lambda> | <ident> | <quote> <ident>
+              | <open_paren> <expr> <close_paren>
+
+<lambda> ::= "fun" (<ident>)+ "->" <expr>
 ```
