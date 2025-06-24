@@ -2,16 +2,48 @@ Below is a concise snapshot of **MIXML**, our pedagogical core language, that al
 
 ### Language Essence
 
-- **Untyped, Applicative, ML‑inspired**
-- **Unicode‑friendly mixfix operators** declared with underscore holes (`_×_`, `if_then_else_,` `_²`, etc.).
-- **Minimal data types**: lambdas, lisp-style symbols (`'symbol`)
+- **Untyped, Applicative, ML‑inspired, Eagerly-evaluated**
+- **Minimal data types**: lambdas, lisp-style symbols (e.g. `'abc`)
+- **Unicode‑friendly mixfix operators** declared with underscore holes (e.g. `_×_`, `if_then_else_,` `_²`, etc.).
 
-### Example Fragments We Will Showcase
+### Syntas demonstration
 
-- Tail‑recursive factorial via `if_then_else_` and `_×_`.
-- Operator ambiguity puzzle: `_++_` vs `_+_` on `1 + 2 ++ 3`.
-- Postfix power example using `_²`: compare parses of `5² × 2`.
+The following are valid MIXML programs of increasing syntactic
+complexity that should evaluate to the same symbol `'abc`:
 
+```
+'abc
+```
+
+```
+let abc = 'abc in abc
+```
+
+```
+let abc = 'abc and
+let def = 'def in
+abc
+```
+
+```
+let _↩_ = fun l r -> l in
+_↩_ `abc `def
+```
+
+```
+let _↩_ = fun l r -> l in
+'abc ↩ 'def
+```
+
+```
+let ⟦_⟧ = fun x -> x in
+⟦ 'abc ⟧
+```
+
+```
+let _✓_✕ = fun x y -> x in
+'abc ✓ 'def ✕
+```
 ---
 
 ## Lexical analysis and base grammar of base MIXML 
