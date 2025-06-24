@@ -16,6 +16,12 @@ I am interested in creating an expository book, written in Python Quarter (.qmd)
 
   - `build.sh`. Build script for the whole book.
 
+# How the book is structured.
+
+- The introduction to the book is in `index.qmd`. Each chapter of the book has path `chapters/*.qmd`.
+
+- The chapters of the book, and the order they are in, are specified in YAML file `_quarto.yml`. Specifically, the YAML fragment between the comment lines `## AI: BEGIN LIST OF CHAPTERS` and `## AI: BEGIN LIST OF CHAPTERS` gives the paths of each chapter .qmd file in the order they appear in the book.
+
 # Ultimate work product.
 
 A Python Quarto book that combines exposition and implementation, as specified in `specifications/overall.md`.

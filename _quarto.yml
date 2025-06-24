@@ -5,9 +5,11 @@ book:
   title: "Mixfix operators will change the world (here's why)"
   author: "Nick Chaiyachakorn and OpenAI o3"
   date: "today"
+## AI: BEGIN LIST OF CHAPTERS
   chapters:
     - index.qmd
     - chapters/gfdl.qmd
+## AI: END LIST OF CHAPTERS
 # Temporary navbar configuration denoting WIP
   sidebar:
     header: "<span style=\"color: red; font-size: 48px; font-weight: bold; text-decoration: underline;\">WIP</span>"
