@@ -1,0 +1,21 @@
+project:
+  type: book
+
+book:
+  title: "Mixfix operators will change the world (here's why)"
+  author: "Nick Chaiyachakorn and OpenAI o3"
+  date: "today"
+  chapters:
+    - index.qmd
+    - chapters/gfdl.qmd
+
+format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    toc: true
+
+jupyter: python3
+
+execute:
+  enabled: true
