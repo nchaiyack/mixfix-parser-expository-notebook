@@ -57,28 +57,27 @@ let _✓_✕ = fun x y -> x in
 One of the takeaways of our mixfix parser implementation is that, as the set of mixfix operators
 in scope changes, so does the effective grammar being parsed.
 
-The following "pseudo-lex" specification shows how tokenization might work:
+The following "pseudo-lex" specification shows how tokenization might work. Note
+that, as far digits are involved, non-floats will be parsed as identifiers.
 
 ```{lex}
-$id_part            = (all non-whitespace graphic Unicode other than "_")
+$id_part            = (all non-whitespace printable Unicode other than special chars _ ( ) ' = ->.)
 
-'                   <quote>
+$white+             (discard)
 (                   <open_paren>
 )                   <close_paren>
+
+in | and | let | = | end | infixl |
+     infixr | infix |fun | ->
+                    (retain keyword verbatim)
+
+'                   <quote>
 
 (floating point #)  <float>
 
 ($id_part)+ |
-    _ ($id_part)+ (_($id_part)?)* (_)+
-
+    _ ($id_part)+ (_ ($id_part)?)* (_)+
                     <ident>
-
-$white+             (discard)
-
-in | and | let | = | end | infixl |
-     infixr | infix |fun | ->
-
-                    (retain keyword verbatim)
 ```
 
 After lexical analysis and producing a token stream, the following
@@ -92,17 +91,16 @@ of ambiguous left recursion.
 ```{bnf}
 <program>   ::= <decl_list> "in" <expr> | <expr>
 <decl_list> ::= <decl> ("and" <decl>)*
-<decl>      ::= "let" <ident> "=" (<expr>)+ "end" | "infixl" <float> <ident> 
+<decl>      ::= "let" <ident> "=" (<term_list>)+ "end" | "infixl" <float> <ident> 
               | "infixr" <float> <ident> | "infix" <float> <ident>
-
 
 # The following rule is usually augmented with
 # mixfix operator alternatives, and explicitly
 # requires dealing with left recursion.
-<fun_app>   ::= (<expr>)+
+<term_list>   ::= (<expr>)+
 
 <expr>      ::= <lambda> | <ident> | <quote> <ident>
               | <open_paren> <expr> <close_paren>
 
-<lambda> ::= "fun" (<ident>)+ "->" <expr>
+<lambda> ::= "fun" (<ident>)* "->" <term_list>
 ```
