@@ -14,6 +14,9 @@ The key feature is this: **Unicode‑friendly mixfix operators** declared with u
 
 ### Syntax demonstration
 
+
+TBD:::::: how do we deal with nullary functions?
+
 The following are valid MIXML programs of increasing syntactic
 complexity that should evaluate to the same symbol `'abc`:
 
@@ -51,6 +54,40 @@ let _✓_✕ = fun x y -> x in
 'abc ✓ 'def ✕
 ```
 ---
+
+## Substantial examples
+
+Although we only have functions and symbols, Church encoding allows us to obtain many base types, as well as sum and product types. Then, mixfix operators give us syntax. The result is a surprisingly easy-to-read language.
+
+### Example: Booleans
+
+```
+let true  = fun x -> fun y -> x and
+let false = fun x -> fun y -> y and
+let if:_then:_else:_ =
+    fun bool this-fn that-fn -> ((bool this-fn that-fn)) and
+let ¬_    = fun p -> p false true in
+if: (¬ true)
+    then: (fun -> 'not-true)
+    else: (fun -> 'not-false)
+
+```
+
+### Example: Conses
+
+```
+let true  = fun x -> fun y -> x and
+let false = fun x -> fun y -> y and
+let [_._] = fun x y -> fun z -> z x y and
+let _::_. = fun x y -> [ x . y ] and
+let []    = false and
+let ℓswitch:_case-pair:_case-nil:_ =
+    fun list on-pair on-nil ->
+        (list on-pair on-nil)
+ℓswitch: [] case-pair: fun -> true true case-nil: fun -> false
+```
+
+
 
 ## Lexical analysis and base grammar of base MIXML 
 
